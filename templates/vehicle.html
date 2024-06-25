@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details</title>
+</head>
+<body>
+    <h1>{{ vehicle.name }}</h1>
+    <p>Make: {{ vehicle.make }}</p>
+    <p>Model: {{ vehicle.model }}</p>
+    <p>Year: {{ vehicle.year }}</p>
+    
+    <h2>Modifications</h2>
+    <ul>
+        {% for mod in vehicle.modifications %}
+        <li>{{ mod.name }} - {{ mod.status }}
+            {% if mod.status != 'Installed' %}
+            <form action="{{ url_for('modify_vehicle', mod_id=mod.id) }}" method="post">
+                <button type="submit">Mark as Installed</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Add Modification</h2>
+    <form method="post">
+        <label for="modification">Modification</label>
+        <input type="text" id="modification" name="modification" required>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            <option value="Planned">Planned</option>
+            <option value="Purchased">Purchased</option>
+        </select>
+        <button type="submit">Add Modification</button>
+    </form>
+</body>
+</html>
