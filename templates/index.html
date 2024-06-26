@@ -1,17 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Mods App</title>
-</head>
-<body>
-    <h1>My Vehicles</h1>
-    <a href="{{ url_for('add_vehicle') }}">Add New Vehicle</a>
-    <ul>
-        {% for vehicle in vehicles %}
-        <li><a href="{{ url_for('vehicle', vehicle_id=vehicle.id) }}">{{ vehicle.name }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h2>Welcome to the Car Modification Tracker</h2>
+    <p>This is a simple application to track your vehicle modifications.</p>
+
+    <h3>Your Vehicles</h3>
+    {% if vehicles %}
+        <ul>
+            {% for vehicle in vehicles %}
+                <li>
+                    <a href="{{ url_for('vehicle', vehicle_id=vehicle.id) }}">{{ vehicle.name }}</a> - {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No vehicles found. <a href="{{ url_for('add_vehicle') }}">Add a new vehicle</a>.</p>
+    {% endif %}
+{% endblock %}

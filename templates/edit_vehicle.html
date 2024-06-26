@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Add Vehicle{% endblock %}
+{% block title %}Edit Vehicle{% endblock %}
 {% block content %}
-    <h2>Add Vehicle</h2>
+    <h2>Edit Vehicle</h2>
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
@@ -20,6 +20,6 @@
             <label for="year">Year</label>
             {{ form.year }}
         </div>
-        <button type="submit">Add Vehicle</button>
+        <button type="submit">Update Vehicle</button>
     </form>
 {% endblock %}

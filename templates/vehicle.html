@@ -1,39 +1,39 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Details</title>
-</head>
-<body>
-    <h1>{{ vehicle.name }}</h1>
+{% extends "base.html" %}
+{% block title %}Vehicle Details{% endblock %}
+{% block content %}
+    <h2>{{ vehicle.name }}</h2>
     <p>Make: {{ vehicle.make }}</p>
     <p>Model: {{ vehicle.model }}</p>
     <p>Year: {{ vehicle.year }}</p>
-    
-    <h2>Modifications</h2>
-    <ul>
-        {% for mod in vehicle.modifications %}
-        <li>{{ mod.name }} - {{ mod.status }}
-            {% if mod.status != 'Installed' %}
-            <form action="{{ url_for('modify_vehicle', mod_id=mod.id) }}" method="post">
-                <button type="submit">Mark as Installed</button>
-            </form>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    
-    <h2>Add Modification</h2>
-    <form method="post">
-        <label for="modification">Modification</label>
-        <input type="text" id="modification" name="modification" required>
-        <label for="status">Status</label>
-        <select id="status" name="status">
-            <option value="Planned">Planned</option>
-            <option value="Purchased">Purchased</option>
-        </select>
+
+    <a href="{{ url_for('edit_vehicle', vehicle_id=vehicle.id) }}">Edit Vehicle</a>
+    <form action="{{ url_for('delete_vehicle', vehicle_id=vehicle.id) }}" method="POST" style="display:inline;">
+        {{ form.hidden_tag() }}
+        <button type="submit">Delete Vehicle</button>
+    </form>
+
+    <h3>Modifications</h3>
+    {% if vehicle.modifications %}
+        <ul>
+            {% for mod in vehicle.modifications %}
+                <li>{{ mod.name }} - {{ mod.status }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No modifications found.</p>
+    {% endif %}
+
+    <h3>Add Modification</h3>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="modification">Modification</label>
+            {{ form.modification }}
+        </div>
+        <div>
+            <label for="status">Status</label>
+            {{ form.status }}
+        </div>
         <button type="submit">Add Modification</button>
     </form>
-</body>
-</html>
+{% endblock %}
