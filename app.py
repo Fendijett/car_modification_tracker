@@ -107,6 +107,41 @@ def delete_vehicle(vehicle_id):
     db.session.commit()
     return redirect(url_for('index'))
 
+
+@app.route('/update_modification_status/<int:mod_id>', methods=['POST'])
+@login_required
+def update_modification_status(mod_id):
+    mod = Modification.query.get_or_404(mod_id)
+    if mod.vehicle.user_id != current_user.id:
+        flash('You do not have permission to modify this vehicle.', 'danger')
+        return redirect(url_for('index'))
+    mod.status = request.form['status']
+    db.session.commit()
+    return redirect(url_for('vehicle', vehicle_id=mod.vehicle_id))
+
+@app.route('/delete_modification/<int:mod_id>', methods=['POST'])
+@login_required
+def delete_modification(mod_id):
+    mod = Modification.query.get_or_404(mod_id)
+    if mod.vehicle.user_id != current_user.id:
+        flash('You do not have permission to modify this vehicle.', 'danger')
+        return redirect(url_for('index'))
+    db.session.delete(mod)
+    db.session.commit()
+    return redirect(url_for('vehicle', vehicle_id=mod.vehicle_id))
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
     port = int(os.environ.get('PORT', 5000))

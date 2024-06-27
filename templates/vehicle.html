@@ -16,7 +16,24 @@
     {% if vehicle.modifications %}
         <ul>
             {% for mod in vehicle.modifications %}
-                <li>{{ mod.name }} - {{ mod.status }}</li>
+                <li>
+                    {{ mod.name }} - {{ mod.status }}
+                    {% if mod.status != 'Installed' %}
+                        <form action="{{ url_for('update_modification_status', mod_id=mod.id) }}" method="POST" style="display:inline;">
+                            {{ form.hidden_tag() }}
+                            <select name="status">
+                                <option value="Planned" {% if mod.status == 'Planned' %}selected{% endif %}>Planned</option>
+                                <option value="Purchased" {% if mod.status == 'Purchased' %}selected{% endif %}>Purchased</option>
+                                <option value="Installed" {% if mod.status == 'Installed' %}selected{% endif %}>Installed</option>
+                            </select>
+                            <button type="submit">Update Status</button>
+                        </form>
+                    {% endif %}
+                    <form action="{{ url_for('delete_modification', mod_id=mod.id) }}" method="POST" style="display:inline;">
+                        {{ form.hidden_tag() }}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
