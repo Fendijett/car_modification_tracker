@@ -109,3 +109,6 @@ def delete_vehicle(vehicle_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    # Run the app on the specified port
+    app.run(host='0.0.0.0', port=port)
