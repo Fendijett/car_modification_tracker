@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <h2>Welcome to the Car Modification Tracker</h2>
-    <a href="{{ url_for('add_vehicle') }}" class="btn btn-primary">Add Vehicle</a>
+    <h2 class="mt-4">Welcome To Your Modification Hub</h2>
+    <a href="{{ url_for('add_vehicle') }}" class="btn btn-primary my-3">Add Vehicle</a>
     <ul class="list-group mt-3">
         {% for vehicle in vehicles %}
             <li class="list-group-item">
